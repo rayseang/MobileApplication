@@ -1,39 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>IS322 Project 1</title>
+ var DataBase=[
+        {_id:'001', name:'Article 1', published: true},
+        {_id:'002', name:'Article 2', published: true},
+        {_id:'003', name:'Article 3', published: false},
+        {_id:'004', name:'Article 4', published: false},
+        {_id:'005', name:'Article 5', published: true},
+        {_id:'006', name:'Article 6', published: false},
+        {_id:'007', name:'Article 7', published: true},
+        {_id:'008', name:'Article 8', published: false},
+        {_id:'009', name:'Article 9', published: true},
+    ];
 
+ function renderList(results) {
+        const productDiv= document.querySelector('#products');
+        productDiv.innerHTML= '';
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="main.css">
-</head>
-<body>
-    <div class="container">
-        <h2 class="text-center"> E-Commerce Store</h2>
+        const products= results.map((result,number)=> {
+            return '<div>' + result.name + '</div>';
+        });
+        products.forEach((item)=> {
+            productDiv.innerHTML += item;
+        });
+    }
 
-        <div class="'filter-container">
-            <select id="published">
-                <option value="true">True</option>
-                <option value="false">False</option>
-            </select>
-        </div>
+    renderList(DataBase);
 
-        <div class="card" style="width: 18rem;">
-                  <img src="{{ product.image.url}}" class="card-img-top" alt="SKU #">
-                    <div class="card-body">
-                    <h5 class="card-title">Product</h5>
-                     <p class="card-text">Description</p>
-                      <a href="/cart" class="btn btn-primary">Add to Basket</a>
-                  </div>
-
-        <div class="filter-contanier">
-            <!-- TODO: Add Filter Elements -->
-        </div>
-
-        <div id="products"></div>
-    </div>
-    <script src="main.js">
-    </script>
-</body>
-</html>
+   function togglePublished(showPublished){
+    const fliteredResults=DataBase.filter((result) => {
+    return showPublished || result.published;
+   });
+    renderList(filteredResults);
+}
+      document.querySelector('#published').addEventListener('change',(event) =>{
+    const value= event.target.value === 'true';
+    togglePublished(value);
+   });
